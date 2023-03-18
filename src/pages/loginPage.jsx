@@ -8,7 +8,11 @@ export default function LoginPage() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
-    console.log(data.get("username"), data.get("password"), data.get("bagher"));
+    console.log(
+      data.get("username"),
+      data.get("password"),
+      data.get("remember")
+    );
   };
 
   return (

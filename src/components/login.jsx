@@ -5,8 +5,12 @@ import Checkbox from "@mui/material/Checkbox";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import img from "../assets/images/logo95.png";
+import auth from "./../services/authService";
+import { Navigate } from "react-router-dom";
 
 const Login = ({ handleSubmit }) => {
+  const user = auth.getCurrentUser();
+  if (user) return <Navigate replace to="/" />;
   return (
     <Box
       sx={{
@@ -21,7 +25,7 @@ const Login = ({ handleSubmit }) => {
       <Typography component="h1" variant="h5" sx={{ fontWeight: 700, mt: 2 }}>
         LOGIN
       </Typography>
-      <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+      <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
         <TextField
           margin="normal"
           required
