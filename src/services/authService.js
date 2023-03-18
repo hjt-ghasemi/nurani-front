@@ -1,5 +1,7 @@
 import jwt_decode from "jwt-decode";
 
+const tokenKey = "token-nurani";
+
 function getCurrentUser() {
   try {
     return jwt_decode(getJWT());
@@ -9,7 +11,7 @@ function getCurrentUser() {
 }
 
 function getJWT() {
-  return localStorage.getItem("token");
+  return localStorage.getItem(tokenKey) || sessionStorage.getItem(tokenKey);
 }
 
 const auth = { getCurrentUser };
