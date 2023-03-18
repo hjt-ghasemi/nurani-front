@@ -1,9 +1,11 @@
 import React from "react";
-import LoginPage from "./pages/loginPage";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import auth from "./services/authService";
+import { Navigate, Route, Routes } from "react-router-dom";
+import LoginPage from "./pages/loginPage";
 import ScrollTop from "./components/scrollTop";
 import DashboardPage from "./pages/dashboardPage";
+import UploadImage from "./components/uploadImage";
+import AllImages from "./components/allImages";
 
 const theme = createTheme({
   palette: {
@@ -30,10 +32,21 @@ const theme = createTheme({
 });
 
 function App() {
-  const user = auth.getCurrentUser();
   return (
     <ThemeProvider theme={theme}>
-      <ScrollTop>{user ? <DashboardPage /> : <LoginPage />}</ScrollTop>
+      <ScrollTop>
+        <Routes>
+          <Route
+            path="*"
+            element={<Navigate replace to="/dashboard/upload-image" />}
+          />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/dashboard" element={<DashboardPage />}>
+            <Route path="upload-image" element={<UploadImage />} />
+            <Route path="all-images" element={<AllImages />} />
+          </Route>
+        </Routes>
+      </ScrollTop>
     </ThemeProvider>
   );
 }
