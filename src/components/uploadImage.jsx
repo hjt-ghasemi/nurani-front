@@ -1,9 +1,9 @@
+import React, { useEffect, useRef, useState } from "react";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
-import React, { useEffect, useRef, useState } from "react";
 import TagsSection from "./tagsSection";
 import ImagePreview from "./imagePreview";
 
