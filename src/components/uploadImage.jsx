@@ -6,6 +6,8 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import TagsSection from "./tagsSection";
 import ImagePreview from "./imagePreview";
+import imageService from "./../services/imageService";
+import { toast } from "react-toastify";
 
 const UploadImage = () => {
   const fileInputRef = useRef();
@@ -26,8 +28,18 @@ const UploadImage = () => {
     }
   }, [image]);
 
-  const handleUpload = () => {
-    alert("ready to Upload");
+  const handleUpload = async () => {
+    if (!canUpload()) return;
+
+    try {
+      await imageService.upload(image, tags);
+      toast.success("Image uploaded successfully.");
+      setTags([]);
+      setImage(null);
+      setPreview(null);
+    } catch (ex) {
+      toast.error(ex.response.data);
+    }
   };
 
   const handleClickSelectImage = (e) => {
