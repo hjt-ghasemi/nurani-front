@@ -6,6 +6,7 @@ import ScrollTop from "./components/scrollTop";
 import DashboardPage from "./pages/dashboardPage";
 import UploadImage from "./components/uploadImage";
 import AllImages from "./components/allImages";
+import EditContent from "./components/editContent";
 
 const theme = createTheme({
   palette: {
@@ -36,14 +37,12 @@ function App() {
     <ThemeProvider theme={theme}>
       <ScrollTop>
         <Routes>
-          <Route
-            path="*"
-            element={<Navigate replace to="/dashboard/upload-image" />}
-          />
+          <Route path="*" element={<Navigate replace to="/dashboard" />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/dashboard" element={<DashboardPage />}>
             <Route path="upload-image" element={<UploadImage />} />
             <Route path="all-images" element={<AllImages />} />
+            <Route path="edit-content" element={<EditContent />} />
           </Route>
         </Routes>
       </ScrollTop>

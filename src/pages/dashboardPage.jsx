@@ -4,21 +4,15 @@ import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import List from "@mui/material/List";
 import CssBaseline from "@mui/material/CssBaseline";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import FileUploadIcon from "@mui/icons-material/FileUpload";
-import ImageSearchIcon from "@mui/icons-material/ImageSearch";
-import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import auth from "../services/authService";
+import DrawerList from "../components/drawerList";
 
 const drawerWidth = 240;
 
@@ -90,9 +84,6 @@ const Drawer = styled(MuiDrawer, {
 export default function DashboardPage() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const loc = useLocation();
-
-  const navigate = useNavigate();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -100,10 +91,6 @@ export default function DashboardPage() {
 
   const handleDrawerClose = () => {
     setOpen(false);
-  };
-
-  const isActive = (path) => {
-    return loc.pathname.includes(path) ? "primary" : "";
   };
 
   const user = auth.getCurrentUser();
@@ -141,67 +128,7 @@ export default function DashboardPage() {
             )}
           </IconButton>
         </DrawerHeader>
-        <List>
-          <ListItem
-            disablePadding
-            sx={{
-              display: "block",
-            }}
-            onClick={() => navigate("/dashboard/upload-image")}
-          >
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? "initial" : "center",
-                px: 2.5,
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : "auto",
-                  justifyContent: "center",
-                }}
-              >
-                <FileUploadIcon color={isActive("/upload-image")} />
-              </ListItemIcon>
-              <ListItemText sx={{ opacity: open ? 1 : 0 }}>
-                Upload Image
-              </ListItemText>
-            </ListItemButton>
-          </ListItem>
-
-          <ListItem
-            disablePadding
-            sx={{ display: "block" }}
-            onClick={() => navigate("/dashboard/all-images")}
-          >
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? "initial" : "center",
-                px: 2.5,
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : "auto",
-                  justifyContent: "center",
-                }}
-              >
-                <ImageSearchIcon color={isActive("/all-images")} />
-              </ListItemIcon>
-              <ListItemText
-                sx={{
-                  opacity: open ? 1 : 0,
-                }}
-              >
-                All Images
-              </ListItemText>
-            </ListItemButton>
-          </ListItem>
-        </List>
+        <DrawerList open={open} />
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
