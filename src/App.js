@@ -1,12 +1,14 @@
 import React from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Navigate, Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import LoginPage from "./pages/loginPage";
 import ScrollTop from "./components/scrollTop";
 import DashboardPage from "./pages/dashboardPage";
 import UploadImage from "./components/uploadImage";
 import AllImages from "./components/allImages";
 import EditContent from "./components/editContent";
+import "react-toastify/dist/ReactToastify.css";
 
 const theme = createTheme({
   palette: {
@@ -35,6 +37,7 @@ const theme = createTheme({
 function App() {
   return (
     <ThemeProvider theme={theme}>
+      <ToastContainer />
       <ScrollTop>
         <Routes>
           <Route path="*" element={<Navigate replace to="/dashboard" />} />

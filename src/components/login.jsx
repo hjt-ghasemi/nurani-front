@@ -1,8 +1,6 @@
 import { Navigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import auth from "./../services/authService";
@@ -44,10 +42,6 @@ const Login = ({ handleSubmit }) => {
           type="password"
           id="password"
           autoComplete="current-password"
-        />
-        <FormControlLabel
-          control={<Checkbox name="remember" value={true} color="primary" />}
-          label="Remember me"
         />
         <Button
           type="submit"

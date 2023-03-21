@@ -20,7 +20,7 @@ function getJWT() {
 }
 
 async function login(username, password) {
-  const token = await http.post(apiEndpoint, { username, password });
+  const { data: token } = await http.post(apiEndpoint, { username, password });
   localStorage.setItem(tokenKey, token);
 }
 
