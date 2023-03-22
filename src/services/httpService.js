@@ -3,6 +3,10 @@ import logger from "./logService";
 import { toast } from "react-toastify";
 
 axios.interceptors.response.use(null, (error) => {
+  if (error.response && error.response.status === 401) {
+    window.location = "/dashboard/logout";
+  }
+
   const expectedError =
     error.response &&
     error.response.status >= 400 &&

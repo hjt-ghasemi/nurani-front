@@ -14,22 +14,23 @@ const AddButton = ({ onClick }) => (
 const TagsSection = ({ tags, onAddTag, onDeleteTag }) => {
   const [tagValue, setTagValue] = useState("");
 
+  const handleTagAdd = () => {
+    setTagValue("");
+    onAddTag(tagValue);
+  };
+
   return (
     <Box sx={{ width: 1, my: 2 }}>
       <TextField
         id="standard-name"
+        onKeyDown={(e) => {
+          if (e.key === "Enter") handleTagAdd();
+        }}
         label="Tag"
         fullWidth
         sx={{ mb: 2 }}
         InputProps={{
-          endAdornment: (
-            <AddButton
-              onClick={() => {
-                setTagValue("");
-                onAddTag(tagValue);
-              }}
-            />
-          ),
+          endAdornment: <AddButton onClick={handleTagAdd} />,
         }}
         value={tagValue}
         onChange={(e) => setTagValue(e.target.value)}
