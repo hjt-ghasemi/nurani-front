@@ -7,6 +7,7 @@ import List from "@mui/material/List";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import ImageSearchIcon from "@mui/icons-material/ImageSearch";
 import EditIcon from "@mui/icons-material/Edit";
+import LogoutIcon from "@mui/icons-material/Logout";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const DrawerList = ({ open }) => {
@@ -16,6 +17,7 @@ const DrawerList = ({ open }) => {
     { title: "Upload Image", path: "/upload-image", icon: FileUploadIcon },
     { title: "Edit Content", path: "/edit-content", icon: EditIcon },
     { title: "All Images", path: "/all-images", icon: ImageSearchIcon },
+    { title: "Logout", path: "/logout", icon: LogoutIcon },
   ];
 
   const isActive = (path) => {

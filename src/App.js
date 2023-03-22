@@ -9,6 +9,7 @@ import UploadImage from "./components/uploadImage";
 import AllImages from "./components/allImages";
 import EditContent from "./components/editContent";
 import "react-toastify/dist/ReactToastify.css";
+import Logout from "./components/logout";
 
 const theme = createTheme({
   palette: {
@@ -46,6 +47,7 @@ function App() {
             <Route path="upload-image" element={<UploadImage />} />
             <Route path="all-images" element={<AllImages />} />
             <Route path="edit-content" element={<EditContent />} />
+            <Route path="logout" element={<Logout />} />
           </Route>
         </Routes>
       </ScrollTop>
