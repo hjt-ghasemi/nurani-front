@@ -43,6 +43,7 @@ const EditContent = () => {
       initialState = { dua: duaContent, wellcome: wlcomeContent };
       forceRender(!bool);
     } catch (ex) {
+      handleDiscardChanges();
       toast.error(ex.response.data);
     }
   };

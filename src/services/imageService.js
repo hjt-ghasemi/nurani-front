@@ -1,8 +1,11 @@
 import http from "./httpService";
+import config from "../config.json";
+
+const apiEndpoint = config.apiUrl + "/images";
 
 async function upload(image, tags) {
   await http.post(
-    "http://localhost:4000/api/images",
+    apiEndpoint,
     { image, tags: JSON.stringify(tags) },
     {
       headers: {

@@ -8,7 +8,7 @@ import img from "../assets/images/logo95.png";
 
 const Login = ({ handleSubmit }) => {
   const user = auth.getCurrentUser();
-  if (user) return <Navigate replace to="/" />;
+  if (user) return <Navigate replace to="/dashboard/upload-image" />;
   return (
     <Box
       sx={{

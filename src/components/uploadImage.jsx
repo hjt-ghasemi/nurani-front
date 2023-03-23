@@ -37,9 +37,7 @@ const UploadImage = () => {
       setTags([]);
       setImage(null);
       setPreview(null);
-    } catch (ex) {
-      toast.error(ex.response.data);
-    }
+    } catch (ex) {}
   };
 
   const handleClickSelectImage = (e) => {

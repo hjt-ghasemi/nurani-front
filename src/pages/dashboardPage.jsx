@@ -4,7 +4,6 @@ import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import CssBaseline from "@mui/material/CssBaseline";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -94,11 +93,10 @@ export default function DashboardPage() {
   };
 
   const user = auth.getCurrentUser();
-
   if (!user) return <Navigate replace to="/login" />;
+
   return (
     <Box sx={{ display: "flex" }}>
-      <CssBaseline />
       <AppBar position="fixed" open={open}>
         <Toolbar>
           <IconButton

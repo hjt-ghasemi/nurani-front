@@ -1,5 +1,4 @@
 import * as React from "react";
-import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
 import Login from "../components/login";
 import auth from "../services/authService";
@@ -12,7 +11,7 @@ export default function LoginPage() {
 
     try {
       await auth.login(data.get("username"), data.get("password"));
-      window.location = "/dashboard";
+      window.location = "/dashboard/upload-image";
     } catch (ex) {
       toast.error(ex.response.data);
     }
@@ -20,7 +19,6 @@ export default function LoginPage() {
 
   return (
     <Container component="main" maxWidth="xs">
-      <CssBaseline />
       <Login handleSubmit={handleSubmit} />
     </Container>
   );
