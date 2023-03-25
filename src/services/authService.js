@@ -1,33 +1,32 @@
-import jwt_decode from "jwt-decode";
 import config from "../config.json";
 import http from "./httpService";
 
 const tokenKey = "token-nurani";
-const apiEndpoint = config.apiUrl + "/auth";
+const apiEndpoint = config.apiUrl + "/login";
 
-http.setJwt(getJWT());
+function getToken() {
+  return localStorage.getItem(tokenKey) || sessionStorage.getItem(tokenKey);
+}
 
-function getCurrentUser() {
-  try {
-    return jwt_decode(getJWT());
-  } catch (ex) {
-    return null;
+async function login(email, password, remember) {
+  const {
+    data: { token },
+  } = await http.post(apiEndpoint, { email, password });
+
+  if (remember) {
+    localStorage.setItem(tokenKey, token);
+  } else {
+    sessionStorage.setItem(tokenKey, token);
   }
-}
 
-function getJWT() {
-  return localStorage.getItem(tokenKey);
-}
-
-async function login(username, password) {
-  const { data: token } = await http.post(apiEndpoint, { username, password });
-  localStorage.setItem(tokenKey, token);
+  return token;
 }
 
 function logout() {
   localStorage.removeItem(tokenKey);
+  sessionStorage.removeItem(tokenKey);
 }
 
-const auth = { getCurrentUser, login, logout };
+const auth = { getToken, login, logout };
 
 export default auth;

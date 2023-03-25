@@ -1,14 +1,12 @@
-import { Navigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import auth from "./../services/authService";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 import img from "../assets/images/logo95.png";
 
 const Login = ({ handleSubmit }) => {
-  const user = auth.getCurrentUser();
-  if (user) return <Navigate replace to="/dashboard/upload-image" />;
   return (
     <Box
       sx={{
@@ -20,7 +18,11 @@ const Login = ({ handleSubmit }) => {
     >
       <img src={img} alt="Nurani logo" />
 
-      <Typography component="h1" variant="h5" sx={{ fontWeight: 700, mt: 2 }}>
+      <Typography
+        component="h1"
+        variant="h5"
+        sx={{ fontWeight: 700, mt: 2, color: "#444" }}
+      >
         LOGIN
       </Typography>
       <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
@@ -28,9 +30,10 @@ const Login = ({ handleSubmit }) => {
           margin="normal"
           required
           fullWidth
-          id="username"
-          label="Username"
-          name="username"
+          type="email"
+          id="email"
+          label="Email"
+          name="email"
           autoFocus
         />
         <TextField
@@ -42,6 +45,12 @@ const Login = ({ handleSubmit }) => {
           type="password"
           id="password"
           autoComplete="current-password"
+        />
+        <FormControlLabel
+          control={
+            <Checkbox name="remember" value="remember" color="primary" />
+          }
+          label="Remember me"
         />
         <Button
           type="submit"

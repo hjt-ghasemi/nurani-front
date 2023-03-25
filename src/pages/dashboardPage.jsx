@@ -10,8 +10,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Navigate, Outlet } from "react-router-dom";
-import auth from "../services/authService";
 import DrawerList from "../components/drawerList";
+import { AuthContext } from "../contexts";
 
 const drawerWidth = 240;
 
@@ -83,6 +83,7 @@ const Drawer = styled(MuiDrawer, {
 export default function DashboardPage() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const { auth } = React.useContext(AuthContext);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -92,8 +93,7 @@ export default function DashboardPage() {
     setOpen(false);
   };
 
-  const user = auth.getCurrentUser();
-  if (!user) return <Navigate replace to="/login" />;
+  if (!auth) return <Navigate replace to="/login" />;
 
   return (
     <Box sx={{ display: "flex" }}>

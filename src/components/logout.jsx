@@ -1,10 +1,14 @@
-import { useEffect } from "react";
-import auth from "../services/authService";
+import { useContext, useEffect } from "react";
+import { redirect } from "react-router-dom";
+import { AuthContext } from "../contexts";
+import authSerivce from "../services/authService";
 
 const Logout = () => {
+  const { setAuth } = useContext(AuthContext);
   useEffect(() => {
-    auth.logout();
-    window.location = "/login";
+    authSerivce.logout();
+    setAuth(null);
+    redirect("/login");
   }, []);
   return null;
 };

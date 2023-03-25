@@ -1,27 +1,25 @@
 import axios from "axios";
-import logger from "./logService";
 import { toast } from "react-toastify";
 
 axios.interceptors.response.use(null, (error) => {
-  if (error.response && error.response.status === 401) {
-    window.location = "/dashboard/logout";
-  }
-
   const expectedError =
     error.response &&
     error.response.status >= 400 &&
     error.response.status < 500;
 
   if (!expectedError) {
-    logger.log(error);
-    toast.error("An unexpected error occurrred.");
+    toast.error("An Unexpected Error Occurrred.");
   }
 
   return Promise.reject(error);
 });
 
-function setJwt(jwt) {
-  axios.defaults.headers.common["x-auth-token"] = jwt;
+function setAuth(auth) {
+  if (auth) {
+    axios.defaults.headers.common["Authorization"] = `Bearer ${auth}`;
+  } else {
+    delete axios.defaults.headers.common["Authorization"];
+  }
 }
 
 const httpService = {
@@ -29,6 +27,6 @@ const httpService = {
   post: axios.post,
   put: axios.put,
   delete: axios.delete,
-  setJwt,
+  setAuth,
 };
 export default httpService;

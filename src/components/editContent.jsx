@@ -1,51 +1,75 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import contentService from "../services/contentService";
 import { toast } from "react-toastify";
+import { LoadingContext } from "../contexts";
+import messageService from "../services/messageService";
+import duaContentSerivce from "../services/duaContentService";
 
-let initialState = { dua: "", wellcome: "" };
+let initialState = { dua: "", message: "" };
 
 const EditContent = () => {
   const [duaContent, setDuaContent] = useState("");
-  const [wlcomeContent, setWlcomeContent] = useState("");
-  const [bool, forceRender] = useState(false);
+  const [message, setMessage] = useState("");
+  const { setLoading } = useContext(LoadingContext);
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data } = await contentService.getContent();
-      initialState = data;
-      setDuaContent(data.dua);
-      setWlcomeContent(data.wellcome);
+      setLoading(true);
+      const {
+        data: {
+          content: { seti_val: dua },
+        },
+      } = await duaContentSerivce.getDuaContent();
+      const {
+        data: {
+          content: { seti_val: message },
+        },
+      } = await messageService.getMessage();
+
+      initialState = { message, dua };
+      setDuaContent(dua);
+      setMessage(message);
+      setLoading(false);
     };
 
-    fetchData();
+    try {
+      fetchData();
+    } catch (ex) {
+      // 404 error
+      toast.error(ex.responnse.data.message.toUpperCase());
+      setLoading(false);
+    }
   }, []);
 
   const isChanged = () => {
-    return (
-      initialState.dua !== duaContent || initialState.wellcome !== wlcomeContent
-    );
+    return initialState.dua !== duaContent || initialState.message !== message;
   };
 
   const handleDiscardChanges = () => {
     setDuaContent(initialState.dua);
-    setWlcomeContent(initialState.wellcome);
+    setMessage(initialState.message);
   };
 
   const handleSaveChanges = async () => {
+    setLoading(true);
     try {
-      await contentService.saveContent(duaContent, wlcomeContent);
+      if (duaContent !== initialState.dua)
+        await duaContentSerivce.setDuaContent(duaContent);
+      if (message !== initialState.message)
+        await messageService.setMessage(message);
       toast.success("Content updated successfully.");
-      initialState = { dua: duaContent, wellcome: wlcomeContent };
-      forceRender(!bool);
+      initialState = { dua: duaContent, message };
     } catch (ex) {
       handleDiscardChanges();
-      toast.error(ex.response.data);
+      // 401
+      const error = ex.response.data.errors && ex.response.data.errors.value[0];
+      toast.error(error);
     }
+    setLoading(false);
   };
 
   return (
@@ -71,11 +95,11 @@ const EditContent = () => {
           </Box>
           <Box sx={{ mb: 3 }}>
             <TextField
-              value={wlcomeContent}
+              value={message}
               multiline
               fullWidth
               label="Wellcome Text"
-              onChange={(e) => setWlcomeContent(e.target.value)}
+              onChange={(e) => setMessage(e.target.value)}
             />
           </Box>
 
