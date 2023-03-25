@@ -1,7 +1,7 @@
 import http from "./httpService";
 import config from "../config.json";
 
-const apiEndpoint = config.apiUrl + "/images";
+const apiEndpoint = config.apiUrl + "/dua_image";
 
 async function upload(image, tags) {
   await http.post(

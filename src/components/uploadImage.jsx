@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -8,12 +8,14 @@ import TagsSection from "./tagsSection";
 import ImagePreview from "./imagePreview";
 import imageService from "./../services/imageService";
 import { toast } from "react-toastify";
+import { LoadingContext } from "../contexts";
 
 const UploadImage = () => {
   const fileInputRef = useRef();
   const [tags, setTags] = useState([]);
   const [image, setImage] = useState();
   const [preview, setPreview] = useState();
+  const { setLoading } = useContext(LoadingContext);
 
   useEffect(() => {
     if (image) {
@@ -30,14 +32,19 @@ const UploadImage = () => {
 
   const handleUpload = async () => {
     if (!canUpload()) return;
-
+    setLoading(true);
     try {
       await imageService.upload(image, tags);
       toast.success("Image uploaded successfully.");
       setTags([]);
       setImage(null);
       setPreview(null);
-    } catch (ex) {}
+    } catch (ex) {
+      const { message, errors } = ex.response.data;
+      const error = (errors && (errors.image[0] || errors.tags[0])) || message;
+      toast.error(error);
+    }
+    setLoading(false);
   };
 
   const handleClickSelectImage = (e) => {
