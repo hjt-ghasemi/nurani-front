@@ -1,21 +1,23 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
-import TagsSection from "./tagsSection";
-import ImagePreview from "./imagePreview";
-import imageService from "./../services/imageService";
+import ImageTags from "./ImageTags";
+import ImagePreview from "./ImagePreview";
+import imageService from "../services/imageService";
 import { toast } from "react-toastify";
-import { LoadingContext } from "../contexts";
+import { useDispatch } from "react-redux";
+import { beginLoading, endLoading } from "../store/ui";
+import { changeImagesFetchRequired } from "../store/images";
 
-const UploadImage = () => {
+const UploadImageForm = () => {
+  const dispatch = useDispatch();
   const fileInputRef = useRef();
   const [tags, setTags] = useState([]);
   const [image, setImage] = useState();
   const [preview, setPreview] = useState();
-  const { setLoading } = useContext(LoadingContext);
 
   useEffect(() => {
     if (image) {
@@ -32,9 +34,10 @@ const UploadImage = () => {
 
   const handleUpload = async () => {
     if (!canUpload()) return;
-    setLoading(true);
     try {
+      dispatch(beginLoading);
       await imageService.upload(image, tags);
+      dispatch(changeImagesFetchRequired);
       toast.success("Image uploaded successfully.");
       setTags([]);
       setImage(null);
@@ -42,9 +45,13 @@ const UploadImage = () => {
     } catch (ex) {
       const { message, errors } = ex.response.data;
       const error = (errors && (errors.image[0] || errors.tags[0])) || message;
+      setTags([]);
+      setImage(null);
+      setPreview(null);
       toast.error(error);
+    } finally {
+      dispatch(endLoading);
     }
-    setLoading(false);
   };
 
   const handleClickSelectImage = (e) => {
@@ -101,7 +108,7 @@ const UploadImage = () => {
           <AddPhotoAlternateIcon style={{ marginLeft: 10, marginTop: -3 }} />
         </Button>
         {preview && <ImagePreview preview={preview} />}
-        <TagsSection
+        <ImageTags
           tags={tags}
           onAddTag={handleAddTag}
           onDeleteTag={handleDeleteTag}
@@ -121,4 +128,4 @@ const UploadImage = () => {
   );
 };
 
-export default UploadImage;
+export default UploadImageForm;

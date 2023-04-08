@@ -1,16 +1,17 @@
-import { useContext, useEffect } from "react";
-import { redirect } from "react-router-dom";
-import { AuthContext } from "../contexts";
-import authSerivce from "../services/authService";
+import { Navigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getToken, logout } from "../store/auth";
+import { useEffect } from "react";
 
 const Logout = () => {
-  const { setAuth } = useContext(AuthContext);
+  const dispatch = useDispatch();
+  const token = useSelector(getToken);
+
   useEffect(() => {
-    authSerivce.logout();
-    setAuth(null);
-    redirect("/login");
+    dispatch(logout);
   }, []);
-  return null;
+
+  return token ? null : <Navigate replace to="/login" />;
 };
 
 export default Logout;

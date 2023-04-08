@@ -6,7 +6,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import img from "../assets/images/logo95.png";
 
-const Login = ({ handleSubmit }) => {
+const LoginForm = ({ handleSubmit }) => {
   return (
     <Box
       sx={{
@@ -65,4 +65,4 @@ const Login = ({ handleSubmit }) => {
   );
 };
 
-export default Login;
+export default LoginForm;

@@ -3,10 +3,13 @@ import config from "../config.json";
 
 const apiEndpoint = config.apiUrl + "/dua_image";
 
-async function upload(image, tags) {
-  await http.post(
+function upload(image, tags) {
+  const tagsNewFormat = {};
+  tags.forEach((tag, index) => (tagsNewFormat[`tags[${index}]`] = tag));
+
+  return http.post(
     apiEndpoint,
-    { image, tags: JSON.stringify(tags) },
+    { image, ...tagsNewFormat },
     {
       headers: {
         "Content-Type": "multipart/form-data",
@@ -15,8 +18,34 @@ async function upload(image, tags) {
   );
 }
 
+function edit(id, image, tags) {
+  const tagsNewFormat = {};
+  tags.forEach((tag, index) => (tagsNewFormat[`tags[${index}]`] = tag));
+
+  const object = { ...tagsNewFormat };
+
+  if (image) object.image = image;
+
+  return http.post(`${apiEndpoint}/${id}`, object, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+}
+
+const getImages = (pageNumber, tag) => {
+  return http.get(`${apiEndpoint}s?page=${pageNumber}&tag=${tag}`);
+};
+
+const deleteImage = (id) => {
+  return http.delete(`${apiEndpoint}/${id}`);
+};
+
 const imageService = {
   upload,
+  edit,
+  getImages,
+  deleteImage,
 };
 
 export default imageService;

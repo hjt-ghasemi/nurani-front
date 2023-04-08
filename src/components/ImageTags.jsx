@@ -11,7 +11,7 @@ const AddButton = ({ onClick }) => (
   </IconButton>
 );
 
-const TagsSection = ({ tags, onAddTag, onDeleteTag }) => {
+const ImageTags = ({ tags, onAddTag, onDeleteTag }) => {
   const [tagValue, setTagValue] = useState("");
 
   const handleTagAdd = () => {
@@ -51,4 +51,4 @@ const TagsSection = ({ tags, onAddTag, onDeleteTag }) => {
   );
 };
 
-export default TagsSection;
+export default ImageTags;

@@ -1,3 +1,8 @@
 {
-  "apiUrl": "http://api.nurani-app.co.uk/api/V1/Admin"
+  "apiUrl": "https://api.nurani-app.co.uk/api/V1/Admin",
+  "storageTokenKey": "nurani-token",
+  "imagesPageSize": 10,
+  "ui": {
+    "drawerWidth": 240
+  }
 }

@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 
 const ImagePreview = ({ preview }) => {
   return (
-    <Box sx={{ w: 1 }}>
+    <Box sx={{ display: "flex", justifyContent: "center" }}>
       <img
         src={preview}
         alt=""

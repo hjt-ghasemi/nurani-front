@@ -1,41 +1,28 @@
 import * as React from "react";
 import Container from "@mui/material/Container";
-import Login from "../components/login";
-import authService from "../services/authService";
-import { toast } from "react-toastify";
-import { AuthContext, LoadingContext } from "../contexts";
 import { Navigate } from "react-router-dom";
+import LoginForm from "../components/LoginForm";
+import { useDispatch, useSelector } from "react-redux";
+import { getToken, logIn } from "../store/auth";
 
 export default function LoginPage() {
-  const { auth, setAuth } = React.useContext(AuthContext);
-  const { setLoading } = React.useContext(LoadingContext);
+  const token = useSelector(getToken);
+  const dispatch = useDispatch();
 
-  if (auth) return <Navigate replace to="/dashboard/upload-image" />;
+  if (token) return <Navigate replace to="/dashboard/upload-image" />;
 
   const handleSubmit = async (event) => {
-    setLoading(true);
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
-    try {
-      const token = await authService.login(
-        data.get("email"),
-        data.get("password"),
-        data.get("remember")
-      );
-      setAuth(token);
-    } catch (ex) {
-      const { message, errors } = ex.response.data;
-      const error =
-        (errors && (errors.email[0] || errors.password[0])) || message;
-      toast.error(error);
-    }
-    setLoading(false);
+    dispatch(
+      logIn(data.get("email"), data.get("password"), data.get("remember"))
+    );
   };
 
   return (
     <Container component="main" maxWidth="xs">
-      <Login handleSubmit={handleSubmit} />
+      <LoginForm handleSubmit={handleSubmit} />
     </Container>
   );
 }
